@@ -29,6 +29,7 @@ public class Order extends BaseIdAndTime {
     private long salePrice;
     private LocalDateTime requestPaymentDate;
     private LocalDateTime paymentDate;
+    private LocalDateTime cancelDate;
 
     @OneToMany(mappedBy = "order", cascade = {PERSIST, REMOVE}, orphanRemoval = true)
     private List<OrderItem> items = new ArrayList<>();
@@ -62,6 +63,14 @@ public class Order extends BaseIdAndTime {
 
     public boolean isPaid() {
         return paymentDate != null;
+    }
+
+    public boolean isCanceled() {
+        return cancelDate != null;
+    }
+
+    public boolean isPaymentInProgress() {
+        return requestPaymentDate != null && paymentDate == null && cancelDate == null;
     }
 
     public void requestPayment(long pgPaymentAmount) {
