@@ -2,11 +2,14 @@ package com.back.boundedContext.payout.app;
 
 import com.back.boundedContext.payout.domain.PayoutCandidateItem;
 import com.back.boundedContext.payout.domain.PayoutMember;
+import com.back.boundedContext.payout.domain.PayoutPolicy;
 import com.back.boundedContext.payout.out.PayoutCandidateItemRepository;
 import com.back.boundedContext.payout.out.PayoutMemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,10 +21,6 @@ public class PayoutSupport {
 
     public Optional<PayoutMember> findSystemMember() {
         return payoutMemberRepository.findByUsername("system");
-    }
-
-    public Optional<PayoutMember> findHolingMember() {
-        return payoutMemberRepository.findByUsername("holding");
     }
 
     public Optional<PayoutMember> findMemberById(int id) {
