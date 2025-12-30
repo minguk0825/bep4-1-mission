@@ -4,6 +4,7 @@ import com.back.boundedContext.payout.app.PayoutFacade;
 import com.back.shared.market.event.MarketOrderPaymentCompletedEvent;
 import com.back.shared.member.event.MemberJoinedEvent;
 import com.back.shared.member.event.MemberModifiedEvent;
+import com.back.shared.payout.event.PayoutCompletedEvent;
 import com.back.shared.payout.event.PayoutMemberCreatedEvent;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -39,14 +40,17 @@ public class PayoutEventListener {
     @TransactionalEventListener(phase = AFTER_COMMIT)
     @Transactional(propagation = REQUIRES_NEW)
     public void handle(PayoutMemberCreatedEvent event) {
-        payoutFacade.createPayout(event.getMember());
+        payoutFacade.createPayout(event.getMember().getId());
     }
 
     @EventListener
     public void handle(MarketOrderPaymentCompletedEvent event) {
-        System.out.println("🔥 LISTENER ENTERED (EventListener)");
-        System.out.println("event class = " + event.getClass());
         payoutFacade.addPayoutCandidateItems(event.getOrder());
     }
 
+    @TransactionalEventListener(phase = AFTER_COMMIT)
+    @Transactional(propagation = REQUIRES_NEW)
+    public void handle(PayoutCompletedEvent event) {
+        payoutFacade.createPayout(event.getPayout().getPayeeId());
+    }
 }
