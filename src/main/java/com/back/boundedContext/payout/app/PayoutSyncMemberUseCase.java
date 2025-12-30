@@ -2,7 +2,7 @@ package com.back.boundedContext.payout.app;
 
 import com.back.boundedContext.payout.domain.PayoutMember;
 import com.back.boundedContext.payout.out.PayoutMemberRepository;
-import com.back.global.eventPublisher.EventPublisher;
+import com.back.global.EventPublisher.EventPublisher;
 import com.back.shared.member.dto.MemberDto;
 import com.back.shared.payout.event.PayoutMemberCreatedEvent;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,5 @@
 package com.back.boundedContext.cash.in;
 
-
 import com.back.boundedContext.cash.app.CashFacade;
 import com.back.boundedContext.cash.domain.CashLog;
 import com.back.boundedContext.cash.domain.CashMember;
@@ -18,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class CashDataInit {
     private final CashDataInit self;
     private final CashFacade cashFacade;
-
     public CashDataInit(
             @Lazy CashDataInit self,
             CashFacade cashFacade

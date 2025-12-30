@@ -13,6 +13,7 @@ public class MemberApiClient {
                 .baseUrl(internalBackUrl + "/api/v1/member")
                 .build();
     }
+
     public String getRandomSecureTip() {
         return restClient.get()
                 .uri("/members/randomSecureTip")

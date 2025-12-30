@@ -1,3 +1,4 @@
+
 package com.back.boundedContext.cash.domain;
 
 import com.back.global.jpa.entity.BaseEntity;
@@ -13,6 +14,7 @@ import java.util.List;
 import static jakarta.persistence.CascadeType.PERSIST;
 import static jakarta.persistence.CascadeType.REMOVE;
 
+
 @Entity
 @Table(name = "CASH_WALLET")
 @NoArgsConstructor
@@ -21,27 +23,15 @@ public class Wallet extends BaseManualIdAndTime {
     @ManyToOne(fetch = FetchType.LAZY)
     private CashMember holder;
 
-    @Getter
+    // 잔액, 잔고
     private long balance;
 
     @OneToMany(mappedBy = "wallet", cascade = {PERSIST, REMOVE}, orphanRemoval = true)
     private List<CashLog> cashLogs = new ArrayList<>();
 
-
     public Wallet(CashMember holder) {
         super(holder.getId());
         this.holder = holder;
-    }
-
-    public WalletDto toDto() {
-        return new WalletDto(
-                getId(),
-                getCreateDate(),
-                getModifyDate(),
-                holder.getId(),
-                holder.getUsername(),
-                balance
-        );
     }
 
     public boolean hasBalance() {
@@ -90,5 +80,17 @@ public class Wallet extends BaseManualIdAndTime {
         cashLogs.add(cashLog);
 
         return cashLog;
+    }
+
+
+    public WalletDto toDto() {
+        return new WalletDto(
+                getId(),
+                getCreateDate(),
+                getModifyDate(),
+                holder.getId(),
+                holder.getUsername(),
+                balance
+        );
     }
 }

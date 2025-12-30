@@ -2,8 +2,7 @@ package com.back.boundedContext.market.app;
 
 import com.back.boundedContext.market.domain.MarketMember;
 import com.back.boundedContext.market.out.MarketMemberRepository;
-import com.back.global.eventPublisher.EventPublisher;
-import com.back.shared.market.dto.MarketMemberDto;
+import com.back.global.EventPublisher.EventPublisher;
 import com.back.shared.market.event.MarketMemberCreatedEvent;
 import com.back.shared.member.dto.MemberDto;
 import lombok.RequiredArgsConstructor;

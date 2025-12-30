@@ -1,11 +1,9 @@
 package com.back.boundedContext.post.in;
 
-import com.back.boundedContext.member.domain.Member;
+import com.back.boundedContext.post.app.PostFacade;
 import com.back.boundedContext.post.domain.Post;
 import com.back.boundedContext.post.domain.PostMember;
-import com.back.boundedContext.member.app.MemberFacade;
-import com.back.boundedContext.post.app.PostFacade;
-import com.back.global.rsData.RsData;
+import com.back.global.RsData.RsData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
@@ -20,25 +18,22 @@ public class PostDataInit {
     private final PostDataInit self;
     private final PostFacade postFacade;
 
-
     public PostDataInit(
             @Lazy PostDataInit self,
-                MemberFacade memberFacade,
-                PostFacade postFacade
-        ) {
-            this.self = self;
-            this.postFacade = postFacade;
-        }
+            PostFacade postFacade
+    ) {
+        this.self = self;
+        this.postFacade = postFacade;
+    }
 
-        @Bean
-        @Order(2)
-        public ApplicationRunner postDataInitApplicationRunner() {
-            return args -> {
-                self.makeBasePosts();
-                self.makeBasePostComments();
-            };
-        }
-
+    @Bean
+    @Order(2)
+    public ApplicationRunner postDataInitApplicationRunner() {
+        return args -> {
+            self.makeBasePosts();
+            self.makeBasePostComments();
+        };
+    }
 
     @Transactional
     public void makeBasePosts() {
@@ -48,23 +43,18 @@ public class PostDataInit {
         PostMember user2Member = postFacade.findMemberByUsername("user2").get();
         PostMember user3Member = postFacade.findMemberByUsername("user3").get();
 
-        RsData<Post> post1RsData = postFacade.write(user1Member, "제목1", "내용1");
-        log.debug(post1RsData.getMsg());
-
-        RsData<Post> post2RsData = postFacade.write(user1Member, "제목2", "내용2");
-        log.debug(post2RsData.getMsg());
-
-        RsData<Post> post3RsData = postFacade.write(user1Member, "제목3", "내용3");
-        log.debug(post3RsData.getMsg());
-
-        RsData<Post> post4RsData = postFacade.write(user2Member, "제목4", "내용4");
-        log.debug(post4RsData.getMsg());
-
-        RsData<Post> post5RsData = postFacade.write(user2Member, "제목5", "내용5");
-        log.debug(post5RsData.getMsg());
-
-        RsData<Post> post6RsData = postFacade.write(user3Member, "제목6", "내용6");
-        log.debug(post6RsData.getMsg());
+        RsData<Post> post1 = postFacade.write(user1Member, "제목1", "내용1");
+        log.debug(post1.getMsg());
+        RsData<Post> post2 = postFacade.write(user1Member, "제목2", "내용2");
+        log.debug(post2.getMsg());
+        RsData<Post> post3 = postFacade.write(user1Member, "제목3", "내용3");
+        log.debug(post3.getMsg());
+        RsData<Post> post4 = postFacade.write(user2Member, "제목4", "내용4");
+        log.debug(post4.getMsg());
+        RsData<Post> post5 = postFacade.write(user2Member, "제목5", "내용5");
+        log.debug(post5.getMsg());
+        RsData<Post> post6 = postFacade.write(user3Member, "제목6", "내용6");
+        log.debug(post1.getMsg());
     }
 
 

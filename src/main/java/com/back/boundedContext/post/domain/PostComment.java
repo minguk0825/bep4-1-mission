@@ -1,29 +1,22 @@
 package com.back.boundedContext.post.domain;
 
-
-import com.back.boundedContext.member.domain.Member;
 import com.back.global.jpa.entity.BaseIdAndTime;
 import com.back.shared.post.dto.PostCommentDto;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import static jakarta.persistence.FetchType.LAZY;
-
 @Entity
-@Table(name = "POST_POST_COMMENT")
 @NoArgsConstructor
+@Table(name="POST_POST_COMMENT")
 @Getter
 public class PostComment extends BaseIdAndTime {
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Post post;
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private PostMember author;
     @Column(columnDefinition = "TEXT")
-    private String content;
+    String content;
 
     public PostComment(Post post, PostMember author, String content) {
         this.post = post;
