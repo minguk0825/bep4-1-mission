@@ -2,6 +2,7 @@ package com.back.boundedContext.market.domain;
 
 import com.back.global.jpa.entity.BaseIdAndTime;
 import com.back.shared.market.dto.OrderDto;
+import com.back.shared.market.event.MarketOrderPaymentCompletedEvent;
 import com.back.shared.market.event.MarketOrderPaymentRequestedEvent;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -25,11 +26,11 @@ import static jakarta.persistence.FetchType.LAZY;
 public class Order extends BaseIdAndTime {
     @ManyToOne(fetch = LAZY)
     private MarketMember buyer;
-    private long price;
-    private long salePrice;
+    private LocalDateTime cancelDate;
     private LocalDateTime requestPaymentDate;
     private LocalDateTime paymentDate;
-    private LocalDateTime cancelDate;
+    private long price;
+    private long salePrice;
 
     @OneToMany(mappedBy = "order", cascade = {PERSIST, REMOVE}, orphanRemoval = true)
     private List<OrderItem> items = new ArrayList<>();
@@ -73,6 +74,12 @@ public class Order extends BaseIdAndTime {
 
     public void completePayment() {
         paymentDate = LocalDateTime.now();
+
+        publishEvent(
+                new MarketOrderPaymentCompletedEvent(
+                        toDto()
+                )
+        );
     }
 
     public boolean isPaid() {

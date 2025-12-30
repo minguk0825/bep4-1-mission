@@ -5,14 +5,20 @@ import com.back.shared.market.event.MarketOrderPaymentCompletedEvent;
 import com.back.shared.member.event.MemberJoinedEvent;
 import com.back.shared.member.event.MemberModifiedEvent;
 import com.back.shared.payout.event.PayoutMemberCreatedEvent;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
 import static org.springframework.transaction.event.TransactionPhase.AFTER_COMMIT;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class PayoutEventListener {
@@ -36,9 +42,11 @@ public class PayoutEventListener {
         payoutFacade.createPayout(event.getMember());
     }
 
-    @TransactionalEventListener(phase = AFTER_COMMIT)
-    @Transactional(propagation = REQUIRES_NEW)
+    @EventListener
     public void handle(MarketOrderPaymentCompletedEvent event) {
+        System.out.println("🔥 LISTENER ENTERED (EventListener)");
+        System.out.println("event class = " + event.getClass());
         payoutFacade.addPayoutCandidateItems(event.getOrder());
     }
+
 }
