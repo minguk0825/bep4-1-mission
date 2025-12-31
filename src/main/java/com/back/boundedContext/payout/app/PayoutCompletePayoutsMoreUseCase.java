@@ -29,6 +29,7 @@ public class PayoutCompletePayoutsMoreUseCase {
         );
     }
 
+    // 정산일이 없고(미정산) 금액이 0원 초과인 정산내역들을 ID 오름차순으로 limit 개수만큼 조회
     private List<Payout> findActivePayouts(int limit) {
         return payoutRepository.findByPayoutDateIsNullAndAmountGreaterThanOrderByIdAsc(0, PageRequest.of(0, limit));
     }
